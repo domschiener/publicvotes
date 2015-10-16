@@ -4,34 +4,34 @@ contract NewPoll {
 
   struct Poll {
     address owner;
-    uint256 title;
+    bytes32 title;
     uint votelimit;
     string options;
     PollStatus status;
   }
 
-  event UserVoted(bytes32 vote_choice);
+  event Voted(bytes32 vote_choice);
 
   //publicly lists all registered votes and the poll
-  bytes32[] public votes;
+  bytes16[] public votes;
   uint numVotes;
   Poll public p;
 
-  function newPoll(address creator, uint256 _title, uint _votelimit, string _options) {
-    p.owner = creator;
+  function NewPoll(bytes32 _title, uint _votelimit, string _options) {
+    p.owner = msg.sender;
     p.title = _title;
     p.votelimit = _votelimit;
     p.options = _options;
     p.status = PollStatus.Live;
   }
 
-  function vote(bytes32 choice) returns (bool successful){
+  function vote(bytes16 choice) returns (bool successful){
     if (msg.sender != p.owner || p.status == PollStatus.Voted) {
       return false;
     }
     votes[numVotes] = choice;
     numVotes++;
-    UserVoted(choice);
+    Voted(choice);
     if (votes.length >= p.votelimit) {
       endPoll();
     }
