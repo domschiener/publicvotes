@@ -1,0 +1,40 @@
+.voted_small {
+  position: relative;
+  width: 100px;
+  background-color: rgb(58,65,86);
+  top: -18px;
+  margin: 0 auto 50px;
+  padding-left: 15px;
+}
+.quick_stats {
+  margin-bottom: 100px;
+}
+
+.vote_count {
+  width: 250px;
+  height: 120px;
+  background-color: #9b59b6;
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+.vote_time {
+  width: 250px;
+  height: 120px;
+  background-color: #3498db;
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+.voted_title {
+  vertical-align: middle;
+  text-align: center;
+  padding-top: 10px;
+  margin-bottom: 5px;
+}
+
+.voted_content {
+  margin-top: 15px;
+  vertical-align: middle;
+  text-align: center;
+}

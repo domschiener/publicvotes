@@ -1,0 +1,25 @@
+<template name="voted">
+  <div class="vote_page">
+    {{> vote_header}}
+    <div class="vote_content">
+      <h6 class="voted_small">Voted</h6>
+      <div class="quick_stats row">
+        <div class="col-xs-6">
+          <div class="vote_count">
+            <h3 class="voted_title">Votes</h3>
+            <h3 class="voted_content">{{vote_count}}</h3>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="vote_time">
+            <h3 class="voted_title">Time Left</h3>
+            <h4 id="countdown" class="voted_content">{{time_limit}}</h4>
+          </div>
+        </div>
+      </div>
+      <h3><center>Votes</center></h3>
+      <hr>
+      {{> highchartsHelper chartId="test" chartWidth="100%" charHeight="100%" chartObject=topGenresChart}}
+    </div>
+  </div>
+</template>

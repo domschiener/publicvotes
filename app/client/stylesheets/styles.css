@@ -1,0 +1,175 @@
+/* CSS declarations go here */
+
+.background_img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(37,45,68, 0.9);
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
+
+.landing {
+  min-height: 68.90rem;
+  height: auto;
+  position: relative;
+  background: url('background2.jpg') no-repeat center;
+  background-size:cover;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.landing_title {
+  margin-top: 175px;
+  margin-bottom: 100px;
+  color: #fff;
+  text-align: center;
+  padding: 0 35px 0 0;
+}
+
+.landing_title h1 {
+  font-size: 100px;
+}
+
+.landing_header {
+  color: #fff;
+  text-align: center;
+  margin: 1px 0;
+  margin-bottom: 50px;
+}
+
+.create_title {
+  position: relative;
+  display: block;
+  height: 16rem;
+  background-color: #2979af;
+  -webkit-box-shadow: 0px 20px 23px -9px rgba(41,121,175,0.72);
+  -moz-box-shadow: 0px 20px 23px -9px rgba(41,121,175,0.72);
+  box-shadow: 0px 20px 23px -9px rgba(41,121,175,0.72);
+}
+
+.create_title h1 {
+  margin-top: 30px;
+  color: #fff;
+  text-align: center;
+}
+
+.create_btn {
+  font-size: 24px;
+  border-radius: 6px;
+  max-width: 60%;
+  text-align: center;
+}
+
+.polls_listed {
+  position: relative;
+  width: 100%;
+  height: 105.90rem;
+  background: #26C281;
+  margin: 0;
+  padding: 0;
+}
+
+.listings_title {
+  position: absolute;
+  width: 100%;
+  height: 14rem;
+  background: #1e9b67;
+  -webkit-box-shadow: 0px 20px 23px -9px rgba(30,155,103,0.72);
+  -moz-box-shadow: 0px 20px 23px -9px rgba(30,155,103,0.72);
+  box-shadow: 0px 20px 23px -9px rgba(30,155,103,0.72);
+}
+
+.listings_title span {
+  color: #fff;
+  text-align: center;
+}
+
+.polls_content {
+  margin-top: 150px;
+  position: absolute;
+}
+
+.open_vote_btn {
+  background-color: #6b238f !important;
+}
+
+.services {
+	margin: 200px 0;
+}
+
+.service {
+	width: 100%;
+	height: 320px;
+	margin: 40px 0;
+  padding: 0;
+	text-align: center;
+	border: 1px solid #ddd;
+	-webkit-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+
+.service .icon-holder {
+	position: relative;
+	top: 50px;
+	display: inline-block;
+	margin-bottom: 40px;
+	padding: 10px;
+	background: #26C281;
+	-webkit-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+
+.service .heading {
+	position: relative;
+	top: 30px;
+	-webkit-transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  color: #fff;
+}
+
+.service .icon-holder > img.icon {
+	width: 40px;
+}
+
+.service:hover {
+	border-color: #072619;
+}
+
+.service:hover .icon-holder {
+	top: -30px;
+}
+
+.service:hover .heading {
+	top: -60px;
+}
+
+.service .description {
+  width: 80%;
+	margin: 0 auto;
+  padding: 0;
+  color: #fff;
+	opacity: 0;
+	-webkit-transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	-webkit-transform: scale(0);
+	-ms-transform: scale(0);
+	transform: scale(0);
+}
+
+.title_poll_front {
+  font-size: 25px;
+  font-weight: 200;
+}
+
+.service:hover .description {
+	opacity: 1;
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+}
+
+.vote_front, .timer_front {
+  margin-top: -40px;
+}
