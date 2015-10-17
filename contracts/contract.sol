@@ -1,48 +1,53 @@
 contract NewPoll {
 
-  enum PollStatus {Live, Voted}
-
+  //defines the poll
   struct Poll {
     address owner;
-    bytes32 title;
+    string title;
     uint votelimit;
     string options;
-    PollStatus status;
+    bool status;
   }
 
+  //if someone voted, we want to be notified
   event Voted(bytes32 vote_choice);
 
-  //publicly lists all registered votes and the poll
-  bytes16[] public votes;
+  //declares the variables
+  bytes32[] public votes;
   uint numVotes;
   Poll public p;
 
-  function NewPoll(bytes32 _title, uint _votelimit, string _options) {
+  //initiator function that enters the necessary poll information
+  function NewPoll(string _options, string _title, uint _votelimit) {
     p.owner = msg.sender;
+    p.options = _options;
     p.title = _title;
     p.votelimit = _votelimit;
-    p.options = _options;
-    p.status = PollStatus.Live;
+    p.status = true;
   }
 
-  function vote(bytes16 choice) returns (bool successful){
-    if (msg.sender != p.owner || p.status == PollStatus.Voted) {
+  //function for user vote. input is a hex choice
+  function vote(bytes32 choice) returns (bool){
+    if (msg.sender != p.owner || p.status != true) {
       return false;
     }
     votes[numVotes] = choice;
     numVotes++;
     Voted(choice);
-    if (votes.length >= p.votelimit) {
-      endPoll();
+    if (p.votelimit > 0) {
+        if (votes.length >= p.votelimit) {
+          endPoll();
+        }
     }
     return true;
   }
 
-  function endPoll() returns (bool result) {
+  //when time or vote limit is reached, set the poll status to false
+  function endPoll() returns (bool) {
     if (msg.sender != p.owner) {
       return false;
     }
-    p.status = PollStatus.Voted;
+    p.status = false;
     return true;
   }
 }
