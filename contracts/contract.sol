@@ -6,28 +6,30 @@ contract NewPoll {
     string title;
     uint votelimit;
     string options;
+    uint deadline;
     bool status;
   }
 
   //if someone voted, we want to be notified
-  event Voted(bytes32 vote_choice);
+  event Voted(string vote_choice);
 
   //declares the variables
-  bytes32[] public votes;
-  uint numVotes;
+  string[] votes;
+  uint numVotes = 0;
   Poll public p;
 
-  //initiator function that enters the necessary poll information
-  function NewPoll(string _options, string _title, uint _votelimit) {
+  //initiator function that stores the necessary poll information
+  function NewPoll(string _options, string _title, uint _votelimit, uint _deadline) {
     p.owner = msg.sender;
     p.options = _options;
     p.title = _title;
     p.votelimit = _votelimit;
+    p.deadline = _deadline;
     p.status = true;
   }
 
   //function for user vote. input is a hex choice
-  function vote(bytes32 choice) returns (bool){
+  function vote(string choice) returns (bool) {
     if (msg.sender != p.owner || p.status != true) {
       return false;
     }
@@ -35,7 +37,7 @@ contract NewPoll {
     numVotes++;
     Voted(choice);
     if (p.votelimit > 0) {
-        if (votes.length >= p.votelimit) {
+        if (numVotes >= p.votelimit) {
           endPoll();
         }
     }
