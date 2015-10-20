@@ -62,6 +62,16 @@
         <p>OpenPolls utilizes the Ethereum Blockchain to create a provably fair and transparent voting system. This means that thousands of computers around the world are there to verify your poll. For this work these computers need to be compensated. Which is why you need to send a small amount of Ether to this network.</p>
       </div>
       <div class="col-xs-6 vote_send">
+        {{#if poll.ready}}
+        <button class="btn btn-lg btn-success start_poll">Start Poll</button>
+        <div id="patience"></div>
+        <ul class="bokeh">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        {{else}}
         <h6>Please send {{contract_cost}} Ether to:</h6>
         <div id="eth_address">
           <button class="btn btn-lg btn-success get_address">Get Address</button>
@@ -73,6 +83,7 @@
           <li></li>
           <li></li>
         </ul>
+        {{/if}}
       </div>
     </div>
   </div>

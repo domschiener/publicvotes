@@ -15,22 +15,32 @@
     {{/each}}
   </select>
 </template>
+
 <template name="poll_listed">
-  {{#each six_polls}}
-    <div class="col-md-4">
-      <div class="service">
-        <div class="icon-holder">
-          <img src="vote-icon.png" alt="" class="icon">
-        </div>
-        <h4 class="heading">{{this.poll.name}}</h4>
-        <div class="description">
-          <div class="col-xs-12 vote_front">
-            <p class="title_poll_front">Votes</p>
-            <p>{{get_votes}}</p>
+  {{#if nopolls}}
+    {{#each six_polls}}
+      <div class="col-md-4">
+        <div class="poll_tile">
+          <div class="icon-holder">
+            <img src="vote-icon.png" alt="" class="icon">
           </div>
-          <a href="{{pathFor route='vote'}}" class="fui-export btn btn-info open_vote_btn"> Vote</a>
+          <h4 class="heading">{{this.poll.name}}</h4>
+          <div class="description">
+            <div class="col-xs-12 vote_front">
+              <p class="title_poll_front">Votes</p>
+              <p>{{get_votes}}</p>
+            </div>
+            <a href="{{pathFor route='vote'}}" class="fui-export btn btn-info open_vote_btn"> Vote</a>
+          </div>
         </div>
       </div>
+    {{/each}}
+  {{else}}
+    <div class="container">
+      <div class="no_polls">
+        <h1>Nothing here<br>:(</h1>
+        <a href="#create" class="btn btn-info btn-lg btn-block no_pollsbtn">Create a Poll</a>
+      </div>
     </div>
-  {{/each}}
+  {{/if}}
 </template>

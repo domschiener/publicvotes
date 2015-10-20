@@ -21,6 +21,5 @@ iron:router
 ejson
 maazalik:highcharts
 hilios:jquery.countdown
-silentcicero:hooked-web3-provider
 twbs:bootstrap
 silentcicero:ethjs

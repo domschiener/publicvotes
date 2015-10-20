@@ -11,6 +11,9 @@ Template.timelimit.helpers({
 });
 
 Template.poll_listed.helpers({
+  nopolls: function() {
+    return (poll.count() >= 0);
+  },
   six_polls: function() {
     var all_polls = poll.find({"poll.isactive":true, "poll.public":true}, {sort: {createdAt: -1}}).fetch();
     return all_polls.slice(0,6);
@@ -43,7 +46,7 @@ Template.more_options.events({
     //Update session storage for NumberOfOptions
     var numOptions = Session.get('NumberOfOptions') + 1;
 
-    if (numOptions <= 10) {
+    if (numOptions <= 6) {
       //Create new DOM element for additional Option
       var new_option = document.createElement("div");
       new_option.className = "form-group";
@@ -82,7 +85,8 @@ Template.main.events({
       'public':'',
       'vote_limit':false,
       'isactive':false,
-      'isvoted':false
+      'isvoted':false,
+      'ready':false
     }
 
     poll['name']= $('#name_poll').val();

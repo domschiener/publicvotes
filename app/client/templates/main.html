@@ -5,10 +5,10 @@
     <div class="container">
       <div class="row">
         <div class="landing_title">
-          <h1>OpenPolls</h1>
+          <h1>OpenVotes</h1>
         </div>
         <div class="landing_header">
-          <h4>A decentralized Voting System, powered by Smart Contracts</h4>
+          <h4>A publicly verifiable Voting System, powered by Smart Contracts</h4>
         </div>
         <div class="col-xs-3"></div>
         <div class="col-xs-3">
@@ -46,7 +46,7 @@
                         <h1>Name your Poll</h1>
                         <p class="poll_descr">Most of the time the name of your poll should be a question.</p>
                       </label>
-                      <input type="text" maxlength="36" class="form-control getName make_btn_appear" id="name_poll" placeholder="Name"  required="required" />
+                      <input type="text" maxlength="32" class="form-control getName make_btn_appear" id="name_poll" placeholder="Name"  required="required" />
                     </li>
 
                     <!-- Second section: Input Description -->
@@ -122,7 +122,7 @@
                           </div>
                           <div class="col-xs-3">
                             <span class="bootstrap-switch-square">
-                              <input id='vote_limit' type="text"  value="" maxlength="5" class="form-control vote_limit_input" />
+                              <input id='vote_limit' type="text"  value="0" maxlength="5" class="form-control vote_limit_input" />
                             </span>
                           </div>
                         </div>
@@ -158,9 +158,12 @@
       </span>
     </div>
     <div class="container">
-      <div class="row services">
+      <div class="row polls_page">
         {{> poll_listed}}
       </div>
     </div>
+  </section>
+  <section id="footer" class="footer_section">
+    {{> footer}}
   </section>
 </template>

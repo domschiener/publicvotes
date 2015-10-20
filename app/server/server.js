@@ -1,11 +1,64 @@
-web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 Meteor.publish('poll_listings', function() {
   //TODO: Subscribe only to active and public polls
   return poll.find();
 });
 
-var timer = false;
+var accountstowatch = [];
+
+Meteor.startup(function() {
+  //for each poll, set the deadline on server startup
+  function polldeadline(poll_input, _current_date) {
+    var current_poll = poll_input;
+    var current_date = _current_date;
+    var timer = false;
+    timer = Meteor.setTimeout(function() {
+      console.log("ID:" + current_poll._id + " Name: " + current_poll.poll.name + "went offline!");
+      poll.update({_id:current_poll._id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
+
+    },(current_poll.endDate[0] - current_date));
+    numtimers += 1;
+    console.log("New timer set for Poll: " + current_poll._id);
+  }
+
+  //TODO: check if this works
+  var active_polls = poll.find({'poll.isactive':true}).fetch();
+  for (var i = 0; i < active_polls.length; i++) {
+    var current_poll = active_polls[i];
+    var current_date = Date.now();
+
+    if (current_poll.endDate[0] <= current_date) {
+      console.log("ID:" + current_poll._id + " Name: " + current_poll.poll.name + "went offline!");
+      poll.update({_id:current_poll._id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
+    }
+    else {
+      polldeadline(current_poll,current_date);
+    }
+  }
+
+  notreadypolls = poll.find({'poll.ready':false, address:{$exists:true}}).fetch()
+  for (var i = 0; i < notreadypolls.length; i++) {
+    accountstowatch.push(notreadypolls[i]);
+  }
+
+  Meteor.setInterval(function(){
+    for (var i = 0; i < accountstowatch.length; i++) {
+      var current_poll = accountstowatch[i]
+      var pub_address = current_poll.address;
+      var balance = web3.eth.getBalance(pub_address);
+      var balance_wei = balance.toString(10);
+      var balance_eth = web3.fromWei(balance_wei, "ether");
+
+      test += 2;
+      if (balance_eth >= 0.2) {
+        console.log("Poll: " + current_poll._id + " is ready to go live!");
+        poll.update({_id:current_poll._id}, {$set:{'poll.ready':true}});
+      }
+    }
+    console.log("No polls went live");
+  },180000)
+});
 
 Meteor.methods({
   post_data: function(data) {
@@ -20,7 +73,6 @@ Meteor.methods({
 
     if (current_poll.votes) {
       if (vote_limit == current_poll.votes.length + 1) {
-        Meteor.clearTimeout(timer);
         poll.update({_id:poll_id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
       }
     }
@@ -30,53 +82,20 @@ Meteor.methods({
   get_accounts: function(poll_id) {
     return EthAccounts.findOne({_id:poll_id});
   },
-  store_account: function(poll_id, pubaddress, balance_required, accounts, _current_poll) {
-    var min_balance = balance_required;
-    var pub_address = pubaddress;
-    var test = balance_required;
-    var current_poll = _current_poll;
-    var balance_interval = false;
-
-    balance_interval = Meteor.setInterval(function(){
-      var balance = web3.eth.getBalance(pub_address);
-      var balance_wei = balance.plus(21).toString(10);
-      var balance_eth = web3.fromWei(balance_wei, "ether");
-      console.log("New Poll", pub_address);
-      if (balance_eth >= min_balance) {
-
-        var cur_date = Date.now();
-        var days = (current_poll.poll.limit_days) * 86400000;
-        var hours = (current_poll.poll.limit_hours) * 3600000;
-        var end_date = cur_date + days + hours;
-
-        //TODO: only make life once the transaction has been made
-        Meteor.call('make_live', current_poll._id, cur_date, end_date);
-        Meteor.clearInterval(balance_interval);
-      }
-      /**test += 1;
-      if (test >= 3) {
-        console.log("Destroying", pub_address)
-        var cur_date = Date.now();
-        var days = (current_poll.poll.limit_days) * 86400000;
-        var hours = (current_poll.poll.limit_hours) * 3600000;
-        var end_date = cur_date + days + hours;
-
-        Meteor.call('make_live', current_poll._id, cur_date, end_date);
-        Meteor.clearInterval(balance_interval);
-      }**/
-    },120000)
-
+  store_account: function(poll_id, pubaddress, accounts) {
     poll.update({_id:poll_id}, {$set:{address:pubaddress}});
+    accountstowatch.push(poll.findOne({_id:poll_id}));
     return EthAccounts.insert({_id:poll_id, address: pubaddress, account: accounts});
   },
-  make_live: function(poll_id, start_date, end_date) {
-    //TODO: Transaction with contract
-    timer = Meteor.setTimeout(function() {
-      console.log("Removed Poll");
+  make_live: function(abi, address, poll_id, start_date, end_date) {
+    EthAccounts.update({_id:poll_id},{$set:{contract_abi:abi, contract_address:address}});
+    poll.update({_id:poll_id}, {$set: {'poll.isactive': true, startDate: start_date, endDate: end_date}});
+
+    Meteor.setTimeout(function() {
+      console.log("ID: " + current_poll._id + " went offline!");
       poll.update({_id:poll_id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
-      console.log(poll.findOne({_id:poll_id}));
     },(end_date - start_date));
-    return poll.update({_id:poll_id}, {$set: {'poll.isactive': true}, $push: {startDate: start_date, endDate: end_date}});
+    console.log("New timer set for Poll: " + poll_id);
   },
   already_voted: function(poll_id) {
     return Uservotes.findOne({_id:poll_id, votes:{connection:this.connection.clientAddress}});

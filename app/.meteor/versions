@@ -21,7 +21,7 @@ ecmascript@0.1.5
 ecmascript-collections@0.1.6
 ejson@1.0.7
 es5-shim@4.1.13
-ethereum:web3@0.13.0
+ethereum:web3@0.14.1
 fastclick@1.0.7
 geojson-utils@1.0.4
 hilios:jquery.countdown@2.0.4
@@ -63,7 +63,6 @@ retry@1.0.4
 routepolicy@1.0.6
 session@1.1.1
 silentcicero:ethjs@0.0.15
-silentcicero:hooked-web3-provider@0.0.3
 spacebars@1.0.7
 spacebars-compiler@1.0.7
 standard-minifiers@1.0.1
