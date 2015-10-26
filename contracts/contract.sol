@@ -8,11 +8,10 @@ contract NewPoll {
     string options;
     uint deadline;
     bool status;
-    bytes32[] votes;
+    uint numVotes;
   }
 
-  //declares the variables
-  uint numVotes = 0;
+  bytes32[] public votes;
   Poll public p;
 
   //initiator function that stores the necessary poll information
@@ -23,6 +22,7 @@ contract NewPoll {
     p.votelimit = _votelimit;
     p.deadline = _deadline;
     p.status = true;
+    p.numVotes = 0;
   }
 
   //function for user vote. input is a string choice
@@ -30,10 +30,10 @@ contract NewPoll {
     if (msg.sender != p.owner || p.status != true) {
       return false;
     }
-    p.votes[numVotes] = choice;
-    numVotes++;
+    votes[votes.length++] = choice;
+    p.numVotes += 1;
     if (p.votelimit > 0) {
-        if (numVotes >= p.votelimit) {
+        if (p.numVotes >= p.votelimit) {
           endPoll();
         }
     }
