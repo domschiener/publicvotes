@@ -19,9 +19,9 @@ iron:router
 twbs:bootstrap
 hilios:jquery.countdown
 maazalik:highcharts
-ethereum:web3
-silentcicero:ethjs
-silentcicero:hooked-web3-provider
+ethereum:web3                          --- version 0.13.0
+silentcicero:ethjs                     --- Modified local package of ethereumjs-accounts
+silentcicero:hooked-web3-provider      --- version 0.0.3
 ```
 
 
