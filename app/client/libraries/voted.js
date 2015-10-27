@@ -1,52 +1,43 @@
 var accounts = new Accounts({minPassphraseLength: 6});
+var allvotes = new ReactiveVar;
+allvotes.set([]);
 
 Template.voted.onRendered(function(){
-  /**console.log(accounts.get());
-  var unlocekd = accounts.get("0xffebe5cfa9acb04556c1e4367aa371fd5117fc1f", 'supersleeckpassword540190121241512142');
-  console.log(unlocekd);
-  var gasPrice = 50000000000;
-  console.log("here");
-  web3.eth.sendTransaction({
-    from: unlocekd['address'],
-    account: unlocekd,
-    to: '0xddf3ad76353810be6a89d731b787f6f17188612b',
-    value: 1000000000000000000,
-    gas: 3141592,
-    gasPrice: gasPrice
-  }, function(error,result) {
-    console.log("Error", error);
-    console.log("S", result);
-  });
-  Meteor.call('getaccounts', current_poll._id, function(error,success) {
-    //accounts.import(success.account);
-    var signer_acc = accounts.new('supersleeckpassword54019012124');
-    var unlocekd = accounts.get(signer_acc['address'], 'supersleeckpassword54019012124');
-    console.log(unlocekd);
-    var gasPrice = 50000000000;
-    accounts.signTransaction(unlocekd, {
-      from: signer_acc['address'],
-      to: '0xddf3ad76353810be6a89d731b787f6f17188612b',
-      value: 1000000000000000000,
-      gas: 3141592,
-      gasPrice: gasPrice
-    }, function(err, result) {
-      console.log("Error", err);
-      console.log("S", result);
-      web3.eth.sendTransaction({data:result}, function(error,results){
-        console.log("Error", error);
-        console.log("S", results);
-      });
-    });
-  });**/
 
   var timer = Session.get('timer')
   $('#countdown').countdown(timer, function(event) {
     $(this).html(event.strftime('%Dd %H:%M:%S'));
   });
+
+  var current_poll = Session.get('current_poll');
+  Meteor.call('get_accounts', current_poll._id, function(error,success){
+    if (success) {
+      var abi = success.contract_abi;
+      var address = success.contract_address;
+      var contract = web3.eth.contract(abi).at(address);
+      var start_block = current_poll.block;
+
+      var filter = contract.NewVote({}, {fromBlock: 446814, toBlock: 'latest'}, function(error,result) {
+        if (!error) {
+          var current_votes = allvotes.get();
+          current_votes.push(result);
+          allvotes.set(current_votes);
+        }
+      });
+    }
+  });
 });
 
 Template.voted.helpers({
   vote_count: function() {
+    // // waits until all events have been filtered
+    // var current_votes = allvotes.get();
+    // if (current_votes) {
+    //   return current_votes.length;
+    // }
+    // else {
+    //   return 0;
+    // }
     var current_poll = Session.get('current_poll');
     if (current_poll.votes) {
       return current_poll.votes.length;
@@ -54,6 +45,7 @@ Template.voted.helpers({
     else {
       return 0;
     }
+
   },
   time_limit: function() {
     var current_poll = Session.get('current_poll');
@@ -61,7 +53,7 @@ Template.voted.helpers({
       Session.set('timer','2015/01/01');
     }
     else {
-      var end_date = new Date(current_poll.endDate[0]);
+      var end_date = new Date(current_poll.endDate);
       var seconds = end_date.getSeconds();
       var minutes = end_date.getMinutes();
       var hours = end_date.getHours();
@@ -152,5 +144,13 @@ Template.voted.helpers({
             }
         }]
       }
+    },
+    listvotes: function() {
+      return allvotes.get();
+    },
+    timestamp: function(blocknum) {
+      var block = web3.eth.getBlock(blocknum);
+      var date = new Date(block.timestamp * 1000);
+      return date;
     }
 });

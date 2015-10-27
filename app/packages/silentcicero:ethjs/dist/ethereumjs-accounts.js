@@ -585,12 +585,11 @@ Accounts.prototype.signTransaction = function(tx_params, callback) {
     var account = tx_params.account;
 
     // if the account is encrypted, try to decrypt it
-    /**if(account.locked && account.encrypted) {
+    if(account.locked && account.encrypted) {
         account = accounts.get(tx_params.from, accounts.options.request(account));
-    }**/
+    }
 
     // if account is still locked, quit
-    console.log("Account", account);
     if(account.locked) {
         callback(new Error("Cannot sign transaction. Account locked!"));
         return;

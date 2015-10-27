@@ -1,4 +1,4 @@
-var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
 
 Meteor.publish('poll_listings', function() {
   //TODO: Subscribe only to active and public polls
@@ -8,28 +8,29 @@ Meteor.publish('poll_listings', function() {
 var accountstowatch = [];
 
 Meteor.startup(function() {
-  //for each poll, set the deadline on server startup
   function polldeadline(poll_input, _current_date) {
     var current_poll = poll_input;
     var current_date = _current_date;
     var timer = false;
-    timer = Meteor.setTimeout(function() {
-      console.log("ID:" + current_poll._id + " Name: " + current_poll.poll.name + "went offline!");
-      poll.update({_id:current_poll._id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
 
-    },(current_poll.endDate[0] - current_date));
-    numtimers += 1;
+    timer = Meteor.setTimeout(function() {
+      console.log("ID:" + current_poll._id + " Name: " + current_poll.poll.name + " went offline!");
+      poll.update({_id:current_poll._id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
+      //TODO: Make transaction that changes contract state
+    },(current_poll.endDate - current_date));
     console.log("New timer set for Poll: " + current_poll._id);
   }
 
-  //TODO: check if this works
+  //
+  // set the deadline for each poll on server startup
+  //
   var active_polls = poll.find({'poll.isactive':true}).fetch();
   for (var i = 0; i < active_polls.length; i++) {
     var current_poll = active_polls[i];
     var current_date = Date.now();
-
-    if (current_poll.endDate[0] <= current_date) {
-      console.log("ID:" + current_poll._id + " Name: " + current_poll.poll.name + "went offline!");
+    console.log(current_poll.endDate - current_date);
+    if ((current_poll.endDate - current_date) <= 0) {
+      console.log("ID:" + current_poll._id + " Name: " + current_poll.poll.name + " went offline!");
       poll.update({_id:current_poll._id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
     }
     else {
@@ -42,22 +43,27 @@ Meteor.startup(function() {
     accountstowatch.push(notreadypolls[i]);
   }
 
+  //
+  //  On Startup, setInterval for all Ethereum accounts to watch for incoming tx
+  //  Interval set for every 2 minutes
+  //
   Meteor.setInterval(function(){
+    console.log(accountstowatch);
     for (var i = 0; i < accountstowatch.length; i++) {
-      var current_poll = accountstowatch[i]
+      var current_poll = accountstowatch[i];
       var pub_address = current_poll.address;
       var balance = web3.eth.getBalance(pub_address);
       var balance_wei = balance.toString(10);
       var balance_eth = web3.fromWei(balance_wei, "ether");
 
-      test += 2;
       if (balance_eth >= 0.2) {
         console.log("Poll: " + current_poll._id + " is ready to go live!");
+        var index = accountstowatch.indexOf(i);
+        accountstowatch.splice(index, 1);
         poll.update({_id:current_poll._id}, {$set:{'poll.ready':true}});
       }
     }
-    console.log("No polls went live");
-  },180000)
+  },120000)
 });
 
 Meteor.methods({
@@ -76,7 +82,8 @@ Meteor.methods({
         poll.update({_id:poll_id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
       }
     }
-    //Uservotes.insert({ _id: poll_id, votes: {connection: this.connection.clientAddress}});
+    var ip_connection = web3.sha3(this.connection.clientAddress);
+    Uservotes.update({ _id: poll_id}, {$push: {connection: ip_connection}});
     return poll.update({_id:poll_id}, {$push: {votes: vote}});
   },
   get_accounts: function(poll_id) {
@@ -87,17 +94,21 @@ Meteor.methods({
     accountstowatch.push(poll.findOne({_id:poll_id}));
     return EthAccounts.insert({_id:poll_id, address: pubaddress, account: accounts});
   },
-  make_live: function(abi, address, poll_id, start_date, end_date) {
+  make_live: function(abi, address, poll_id, _block, start_date, end_date) {
+    Uservotes.insert({ _id: poll_id});
     EthAccounts.update({_id:poll_id},{$set:{contract_abi:abi, contract_address:address}});
-    poll.update({_id:poll_id}, {$set: {'poll.isactive': true, startDate: start_date, endDate: end_date}});
-
+    poll.update({_id:poll_id}, {$set: {'poll.isactive': true, block: _block, startDate: start_date, endDate: end_date}});
+    console.log("Difference: ", end_date - start_date);
     Meteor.setTimeout(function() {
-      console.log("ID: " + current_poll._id + " went offline!");
+      console.log("ID: " + poll_id + " went offline!");
       poll.update({_id:poll_id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
+      //TODO: Make transaction that changes contract state
     },(end_date - start_date));
     console.log("New timer set for Poll: " + poll_id);
   },
   already_voted: function(poll_id) {
-    return Uservotes.findOne({_id:poll_id, votes:{connection:this.connection.clientAddress}});
+    var ip_connection = web3.sha3(this.connection.clientAddress);
+    console.log("Votes: ", Uservotes.find({_id:poll_id}).fetch());
+    return Uservotes.findOne({_id:poll_id, connection:ip_connection});
   }
 });

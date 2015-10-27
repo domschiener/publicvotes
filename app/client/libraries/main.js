@@ -11,15 +11,15 @@ Template.timelimit.helpers({
 });
 
 Template.poll_listed.helpers({
-  nopolls: function() {
-    return (poll.count() >= 0);
+  countpolls: function() {
+    return (poll.find({'poll.isvoted': false, 'poll.isactive':true}).count() > 0);
   },
   six_polls: function() {
-    var all_polls = poll.find({"poll.isactive":true, "poll.public":true}, {sort: {createdAt: -1}}).fetch();
+    var all_polls = poll.find({'poll.ready':true, "poll.isactive":true, "poll.public":true}, {sort: {createdAt: -1}}).fetch();
     return all_polls.slice(0,6);
   },
   get_votes: function() {
-    var cur_poll = poll.findOne({_id:this._id});
+    var cur_poll = this;
     var vote_limit = cur_poll.poll.vote_limit;
 
     if (cur_poll.votes) {
@@ -54,10 +54,6 @@ Template.more_options.events({
       document.getElementById('options').appendChild(new_option);
 
       Session.set('NumberOfOptions', numOptions);
-
-      var newAccount = accounts.new("This is a super secret passphrase123!");
-      console.log(newAccount);
-      console.log(accounts.get());
     }
   },
   'click #rmv_option' : function() {
