@@ -18,15 +18,15 @@ Router.route('/vote/:_id', {
     }
   },
   onBeforeAction: function() {
+    var cont = this.next;
     var vote_id = this.params._id;
     var current_poll = poll.findOne({_id: this.params._id});
     if (current_poll) {
       Session.set('current_poll', current_poll);
-      console.log(current_poll);
       if (current_poll.poll.isvoted == true) {
         var route = "/vote/" + vote_id + "/voted";
         Router.go(route);
-      };
+      }
     }
     Meteor.call('already_voted', vote_id, function(error, success) {
       if(success) {
@@ -34,26 +34,30 @@ Router.route('/vote/:_id', {
         Router.go(route);
       }
     });
-    this.next();
+    cont();
   }
 });
 
 Router.route('/vote/:_id/voted', {
   name: 'voted',
   template: 'voted',
-  data: function() {
-    poll: {
-      var current_poll = poll.findOne({_id: this.params._id});
-      Session.set('current_poll', current_poll);
-      return current_poll;
+  onRun: function() {
+    var current_poll = poll.findOne({_id: this.params._id});
+    Session.set('current_poll', current_poll);
+    if (Session.get('current_poll')) {
+      this.next();
     }
   },
   onBeforeAction: function() {
     var cont = this.next;
     var vote_id = this.params._id;
     var current_poll = poll.findOne({_id: this.params._id});
+    Session.set('current_poll', current_poll);
+
     if (current_poll) {
-      Session.set('current_poll', current_poll);
+      if (Session.get('current_poll') != current_poll) {
+        Session.set('current_poll', current_poll);
+      }
       if (current_poll.poll.isvoted) {
         cont();
       }

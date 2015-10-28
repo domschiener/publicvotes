@@ -28,7 +28,6 @@ Meteor.startup(function() {
   for (var i = 0; i < active_polls.length; i++) {
     var current_poll = active_polls[i];
     var current_date = Date.now();
-    console.log(current_poll.endDate - current_date);
     if ((current_poll.endDate - current_date) <= 0) {
       console.log("ID:" + current_poll._id + " Name: " + current_poll.poll.name + " went offline!");
       poll.update({_id:current_poll._id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
@@ -48,7 +47,6 @@ Meteor.startup(function() {
   //  Interval set for every 2 minutes
   //
   Meteor.setInterval(function(){
-    console.log(accountstowatch);
     for (var i = 0; i < accountstowatch.length; i++) {
       var current_poll = accountstowatch[i];
       var pub_address = current_poll.address;
@@ -98,7 +96,6 @@ Meteor.methods({
     Uservotes.insert({ _id: poll_id});
     EthAccounts.update({_id:poll_id},{$set:{contract_abi:abi, contract_address:address}});
     poll.update({_id:poll_id}, {$set: {'poll.isactive': true, block: _block, startDate: start_date, endDate: end_date}});
-    console.log("Difference: ", end_date - start_date);
     Meteor.setTimeout(function() {
       console.log("ID: " + poll_id + " went offline!");
       poll.update({_id:poll_id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
@@ -108,7 +105,6 @@ Meteor.methods({
   },
   already_voted: function(poll_id) {
     var ip_connection = web3.sha3(this.connection.clientAddress);
-    console.log("Votes: ", Uservotes.find({_id:poll_id}).fetch());
     return Uservotes.findOne({_id:poll_id, connection:ip_connection});
   }
 });

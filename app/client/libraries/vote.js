@@ -35,8 +35,7 @@ Template.vote.events({
     var current_poll = Session.get('current_poll');
     Meteor.call('get_accounts', current_poll._id, function(error,success){
       accounts.clear();
-      //accounts.import(success.account)
-      accounts.import('{"0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2":{"address":"0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2","encrypted":true,"locked":false,"hash":"40777b95e57b6c4a941ec2652efb62e16b26bf33bb90843f07b5fee3b1861933","private":"f7a6c3c60a8382aaa81fa75eb6a1bed8ad130e5e52a57a643a815b3c65e30cc1","public":"d4ff2d6a3847e188c633fbca8a9c7f6222ac6821fbfe49849ccb1c5e3ccc6c3f7f175b736d87a3b3236115875dc8664ae505878fe4a84d71bb648a2296f59869"},"selected":"0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2"}');
+      accounts.import(success.account)
       var unlocked = accounts.get(success.address)
       var abi = success.contract_abi;
       var address = success.contract_address;
@@ -76,10 +75,8 @@ Template.vote.events({
           return retVal;
       }
       var passphrase = generatePassword();
-      accounts.import('{"0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2":{"address":"0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2","encrypted":true,"locked":false,"hash":"40777b95e57b6c4a941ec2652efb62e16b26bf33bb90843f07b5fee3b1861933","private":"f7a6c3c60a8382aaa81fa75eb6a1bed8ad130e5e52a57a643a815b3c65e30cc1","public":"d4ff2d6a3847e188c633fbca8a9c7f6222ac6821fbfe49849ccb1c5e3ccc6c3f7f175b736d87a3b3236115875dc8664ae505878fe4a84d71bb648a2296f59869"},"selected":"0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2"}');
-      //var ethaccount = accounts.new(passphrase);
-      var ethaccount = accounts.get('0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2');
-      var unlocked = accounts.get('0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2');
+      var ethaccount = accounts.new(passphrase);
+      var unlocked = accounts.get(ethaccount['address'], passphrase);
 
       var exported1 = '{"' + ethaccount['address'] + '":';
       var exported2 = JSON.stringify(unlocked);
@@ -100,8 +97,7 @@ Template.vote.events({
       $('.start_poll').addClass('disabled');
       var element = document.getElementById('patience');
       element.innerHTML = "<h7>Received your request, this could take a few minutes.</h7>";
-      //accounts.import(success.account);
-      accounts.import('{"0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2":{"address":"0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2","encrypted":true,"locked":false,"hash":"40777b95e57b6c4a941ec2652efb62e16b26bf33bb90843f07b5fee3b1861933","private":"f7a6c3c60a8382aaa81fa75eb6a1bed8ad130e5e52a57a643a815b3c65e30cc1","public":"d4ff2d6a3847e188c633fbca8a9c7f6222ac6821fbfe49849ccb1c5e3ccc6c3f7f175b736d87a3b3236115875dc8664ae505878fe4a84d71bb648a2296f59869"},"selected":"0x96ff0bdf8b2b998cc130f1f9bee3f6a05a7d46f2"}');
+      accounts.import(success.account);
       var unlocked = accounts.get(success.address);
       var gasprice = web3.eth.gasPrice.toString(10);
       var cur_date = Date.now();
