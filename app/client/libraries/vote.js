@@ -2,15 +2,6 @@ var accounts = new Accounts({minPassphraseLength: 6});
 var min_balance;
 var ethaccount;
 
-Template.vote.onRendered(function(){
-
-  //accounts.import('{"0x7731d6e987f9f7446b9cc4ae6f2e64522e8acdef":{"address":"0x7731d6e987f9f7446b9cc4ae6f2e64522e8acdef","encrypted":true,"locked":false,"hash":"81440692271c6630f77ce01678c7d2e2eed3289d6ea26a791f92d927bf95e638","private":"362c2d58f933aa0ec14803c9f9c6b64edfcb3c4499f3040791750dd9fc4c9495","public":"d5c3dbd482dac10ee5974a9aafb5bf70674e5c3343bc78e70fdc99f3ad0e8b2e6a47268c5149647d509504da729e4c0d08fe8ce885fb486abe8b9333d8c1fbf2"},"selected":"0x7731d6e987f9f7446b9cc4ae6f2e64522e8acdef"}');
-  //passphrase = generatePassword();
-  //ethaccount = accounts.new(passphrase);
-  //ethaccount = accounts.get('0x7731d6e987f9f7446b9cc4ae6f2e64522e8acdef');
-  //console.log(ethaccount);
-});
-
 Template.registerHelper("option_count", function(count) {
   if (count == 2) {
     return "true";

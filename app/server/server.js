@@ -8,6 +8,8 @@ Meteor.publish('poll_listings', function() {
 var accountstowatch = [];
 
 Meteor.startup(function() {
+  //process.env.HTTP_FORWARDED_COUNT = 1;
+
   function polldeadline(poll_input, _current_date) {
     var current_poll = poll_input;
     var current_date = _current_date;
