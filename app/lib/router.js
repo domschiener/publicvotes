@@ -48,6 +48,13 @@ Router.route('/vote/:_id/voted', {
       this.next();
     }
   },
+  data: function() {
+    poll: {
+      //TODO: Instead of storing ID in Session, store the actual vote
+      var current_poll = poll.findOne({_id: this.params._id});
+      return current_poll;
+    }
+  },
   onBeforeAction: function() {
     var cont = this.next;
     var vote_id = this.params._id;

@@ -46,11 +46,11 @@ Template.more_options.events({
     //Update session storage for NumberOfOptions
     var numOptions = Session.get('NumberOfOptions') + 1;
 
-    if (numOptions <= 6) {
+    if (numOptions <= 10) {
       //Create new DOM element for additional Option
       var new_option = document.createElement("div");
       new_option.className = "form-group";
-      new_option.innerHTML = '<input id="option-' + numOptions + '" type="text" value="" maxlength="16" placeholder="Option ' + numOptions +'" class="form-control poll_options" />';
+      new_option.innerHTML = '<input id="option-' + numOptions + '" type="text" value="" maxlength="20" placeholder="Option ' + numOptions +'" class="form-control poll_options" />';
       document.getElementById('options').appendChild(new_option);
 
       Session.set('NumberOfOptions', numOptions);
