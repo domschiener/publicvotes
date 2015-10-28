@@ -11,7 +11,10 @@ contract NewPoll {
     uint numVotes;
   }
 
-  bytes32[] public votes;
+  // event tracking of all votes
+  event NewVote(string votechoice);
+
+  // declare a public poll called p
   Poll public p;
 
   //initiator function that stores the necessary poll information
@@ -26,16 +29,19 @@ contract NewPoll {
   }
 
   //function for user vote. input is a string choice
-  function vote(bytes32 choice) returns (bool) {
+  function vote(string choice) returns (bool) {
     if (msg.sender != p.owner || p.status != true) {
       return false;
     }
-    votes[votes.length++] = choice;
+
     p.numVotes += 1;
+    NewVote(choice);
+
+    // if votelimit reached, end poll
     if (p.votelimit > 0) {
-        if (p.numVotes >= p.votelimit) {
-          endPoll();
-        }
+      if (p.numVotes >= p.votelimit) {
+        endPoll();
+      }
     }
     return true;
   }
