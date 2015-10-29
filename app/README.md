@@ -8,7 +8,7 @@ This describes the file structure as well as the dependencies which are used for
 In order for OpenVotes to function, we need to have an Ethereum node with the JSON RPC enabled. We are using the standard port, `port 8545`. To start the JSON RPC in the Go Client, you can run the following command (if you are using the C++ or the Python client, you can find the correct command on the [Ethereum Wiki](https://github.com/ethereum/wiki/wiki/JSON-RPC)):
 
 ```
-geth --rpc --rpcaddr="localhost" --unlock=1 --rpcport="8545" --rpccorsdomain="http://localhost:3000"
+geth --rpc --rpcaddr="localhost" --rpcport="8545" --rpccorsdomain="http://localhost:3000"
 ```
 
 

@@ -66,7 +66,7 @@
   position: relative;
   width: 100%;
   height: auto;
-  max-height: 105.90rem;
+  max-height: 110.90rem;
   background: #26C281;
   margin: 0;
   padding: 0;
@@ -189,6 +189,14 @@
   width: 50%;
   font-size: 30px;
   margin-top: 80px;
+}
+
+.more_pollsbtn {
+  position: relative;
+  width: 30%;
+  font-size: 22px;
+  margin: 0 auto 10px;
+  background-color: #6b238f !important;
 }
 
 .footer_section {

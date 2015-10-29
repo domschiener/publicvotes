@@ -87,6 +87,7 @@ Meteor.methods({
     return poll.update({_id:poll_id}, {$push: {votes: vote}});
   },
   get_accounts: function(poll_id) {
+    match(poll_id, String);
     return EthAccounts.findOne({_id:poll_id});
   },
   store_account: function(poll_id, pubaddress, accounts) {

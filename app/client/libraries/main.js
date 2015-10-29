@@ -12,10 +12,11 @@ Template.timelimit.helpers({
 
 Template.poll_listed.helpers({
   countpolls: function() {
-    return (poll.find({'poll.isvoted': false, 'poll.isactive':true}).count() > 0);
+    //return (poll.find({'poll.isvoted': false, 'poll.isactive':true}).count() > 0);
+    return (poll.find({}).count() > 0);
   },
   six_polls: function() {
-    var all_polls = poll.find({'poll.ready':true, "poll.isactive":true, "poll.public":true}, {sort: {createdAt: -1}}).fetch();
+    var all_polls = poll.find({}, {sort: {createdAt: -1}}).fetch();
     return all_polls.slice(0,6);
   },
   get_votes: function() {
