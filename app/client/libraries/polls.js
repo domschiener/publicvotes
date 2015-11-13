@@ -1,6 +1,12 @@
 Template.all_polls.helpers({
+  countpolls: function() {
+    return (poll.find({'poll.isvoted': false, 'poll.isactive':true}).count() > 0);
+  },
   live_polls: function() {
     return poll.find({'poll.ready':true, 'poll.isvoted': false, 'poll.isactive':true, "poll.public":true}, {sort: {createdAt: -1}}).fetch();
+  },
+  past_polls: function() {
+    return poll.find({'poll.ready':true, 'poll.isvoted': true, 'poll.isactive':false, "poll.public":true}, {sort: {createdAt: -1}}).fetch();
   },
   get_votes: function() {
     var cur_poll = this;
