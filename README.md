@@ -4,5 +4,5 @@ PublicVotes is a voting application based off of Ethereum, a novel new smart con
 
 ## How it Works
 
-If you want to get a detailed description on how PublicVotes works, please refer to this (Medium Post)[https://medium.com/@DomSchiener/publicvotes-ethereum-based-voting-application-3b691488b926#.5hoz4ulgl] to learn more about the application.
+If you want to get a detailed description on how PublicVotes works, please refer to this [Medium Post](https://medium.com/@DomSchiener/publicvotes-ethereum-based-voting-application-3b691488b926#.5hoz4ulgl) to learn more about the application.
 
