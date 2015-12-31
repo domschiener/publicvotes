@@ -1,0 +1,132 @@
+<template name="create">
+  <section id="create" class="poll_section">
+    <div name="poll_section" class="covering">
+      <div class="create_title">
+        <div class="progress">
+          <div class="progress-bar" style="width: 0;">
+            <span class="sr-only">60% Complete</span>
+          </div>
+        </div>
+        <h1>Create</h1>
+      </div>
+      <div class="container-fluid table-class">
+        <div class="black">
+          <div class="inner cover">
+            <div class="centerUp">
+              <div class="questionaire">
+                <form>
+                  <ul class="progress-form">
+
+                    <!-- First section: Input Name -->
+                    <li class="form-group animated fadeInRightBig activate" data-color="#E1523D" data-percentage="20%">
+                      <label for="nameInput">
+                        <h1>Name your Poll</h1>
+                        <p class="poll_descr">Most of the time the name of your poll should be a question.</p>
+                      </label>
+                      <input type="text" maxlength="48" class="form-control getName make_btn_appear" id="name_poll" placeholder="Name"  required="required" />
+                    </li>
+
+                    <!-- Second section: Input Description -->
+                    <li class="form-group animated hide inactive" data-color="#7C6992"  data-percentage="40%">
+                      <label for="descriptionInput">
+                        <h1>Nice, the name of your poll is <strong><span class="cName"></span></strong></h1>
+                        <p class="poll_descr">Optional: To help others better understand what your poll is about, you can provide a concise description here. (Max 120 chars)</p>
+                      </label>
+                      <textarea class="form-control" id="description" maxlength="145" placeholder="Description"></textarea>
+                    </li>
+
+                    <!-- Third Section: Choose Options -->
+                    <li class="form-group animated hide" data-color="#00AF66"  data-percentage="80%">
+                      <label for="pollSettings">
+                        <h1>Choose your Poll Settings</h1>
+                      </label>
+
+                      <!-- Poll Options -->
+                      <div class="col-md-6">
+                        <h5>Poll Options</h5>
+                        <div id="options">
+                          <div class="form-group">
+                            <input id='option-1' type="text" value="" maxlength="20" placeholder="Option 1" class="form-control poll_options" />
+                          </div>
+                          <div class="form-group">
+                            <input id='option-2' type="text" value="" maxlength="20" placeholder="Option 2" class="form-control poll_options popup_success" />
+                          </div>
+                        </div>
+                        <div class="more_btn">
+                          {{> more_options}}
+                        </div>
+                      </div>
+
+                      <!-- Other Settings for Poll -->
+                      <div class="col-md-6 public_settings">
+                        <h5>Other Settings</h5>
+
+                        <!-- Public Poll: Yes or No -->
+                        <div class="row">
+                          <div class="col-xs-6">
+                            <p class="poll_settings">
+                              Public Poll
+                              <!-- More Information -->
+                              <button type="button" class="btn btn-xs btn-primary help pull-right" style="margin:5px 0; border-radius: 36px;" data-toggle="popover" data-placement="top" data-content="Since we are using the Blockchain for the Polls, all information is public. If you choose private, the listing will not be published on the homepage and only those with a link can vote.">?</button>
+                            </p>
+                          </div>
+                          <div class="col-xs-3">
+                            <span class="bootstrap-switch-square">
+                              <input type="checkbox" checked data-toggle="switch" id="public_poll_switch" data-on-text="<span class='fui-check'></span>" data-off-text="<span class='fui-cross'></span>" />
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- Multi-Option Poll: Yes or No
+                        <div class="row">
+                          <div class="col-xs-6">
+                            <p class="poll_settings">
+                              Multi-Option
+                              <button type="button" class="btn btn-xs btn-primary help pull-right" style="margin:5px 0; border-radius: 36px;" data-toggle="popover" data-placement="top" data-content="If you choose this option, your users will be able to pick multiple options instead of just one.">?</button>
+                            </p>
+                          </div>
+                          <div class="col-xs-3">
+                            <span class="bootstrap-switch-square">
+                              <input type="checkbox" checked data-toggle="switch" id="multi_option_switch" data-on-text="<span class='fui-check'></span>" data-off-text="<span class='fui-cross'></span>" />
+                            </span>
+                          </div>
+                        </div>-->
+
+                        <!-- Vote Limit: Number -->
+                        <div class="row">
+                          <div class="col-xs-6">
+                            <p class="poll_settings">Vote Limit</p>
+                          </div>
+                          <div class="col-xs-3">
+                            <span class="bootstrap-switch-square">
+                              <input id='vote_limit' type="text"  value="0" maxlength="5" class="form-control vote_limit_input" />
+                            </span>
+                          </div>
+                        </div>
+
+                        <!-- Time Limit: Number -->
+                        <div class="row">
+                          <div class="col-xs-6">
+                            <p class="poll_settings">Time Limit</p>
+                          </div>
+                          <div class="col-xs-3">
+                            {{> timelimit}}
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </form>
+              </div>
+              <div class="count">
+                <span class="img_cnt"></span> / <span class="img_amt"></span>
+              </div>
+              <button id="nxt" class="btn btn-success btn-lg nxt animated hide">Next</button>
+              <button id="submit" class="btn btn-success btn-lg nxt animated hide">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>

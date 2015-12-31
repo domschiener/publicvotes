@@ -1,4 +1,12 @@
-/* CSS declarations go here */
+body,
+html {
+  font-family: 'Raleway', sans-serif;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 .background_img {
   position: absolute;
@@ -11,48 +19,33 @@
 }
 
 .landing {
-  min-height: 68.90rem;
-  height: auto;
+  min-height: 100%;
   position: relative;
   background: url('background2.jpg') no-repeat center;
   background-size:cover;
   z-index: 0;
   overflow: hidden;
+
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .landing_title {
-  margin-top: 175px;
-  margin-bottom: 100px;
   color: #fff;
-  text-align: center;
-  padding: 0 35px 0 0;
+  margin-bottom: 100px;
 }
 
 .landing_title h1 {
   font-size: 100px;
 }
 
-.landing_header {
+.landing_description {
   color: #fff;
   text-align: center;
-  margin: 1px 0;
   margin-bottom: 50px;
-}
-
-.create_title {
-  position: relative;
-  display: block;
-  height: 16rem;
-  background-color: #2979af;
-  -webkit-box-shadow: 0px 20px 23px -9px rgba(41,121,175,0.72);
-  -moz-box-shadow: 0px 20px 23px -9px rgba(41,121,175,0.72);
-  box-shadow: 0px 20px 23px -9px rgba(41,121,175,0.72);
-}
-
-.create_title h1 {
-  margin-top: 30px;
-  color: #fff;
-  text-align: center;
 }
 
 .create_btn {
@@ -62,12 +55,16 @@
   text-align: center;
 }
 
+/**
+  *   Active Polls Home Section
+  **/
+
 .polls_listed {
   position: relative;
   width: 100%;
-  height: auto;
-  max-height: 110.90rem;
+  height: 100%;
   background: #26C281;
+  overflow: hidden;
   margin: 0;
   padding: 0;
 }

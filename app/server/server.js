@@ -56,6 +56,11 @@ Meteor.startup(function() {
       var balance_wei = balance.toString(10);
       var balance_eth = web3.fromWei(balance_wei, "ether");
 
+      // If a poll is not ready after 7 days, we remove it
+      if (current_poll.startDate + 1000 * 60 * 60 * 24 * 7 <= Date.now()) {
+        poll.remove({_id: current_poll._id});
+      }
+
       if (balance_eth >= 0.2) {
         console.log("Poll: " + current_poll._id + " is ready to go live!");
         var index = accountstowatch.indexOf(i);
