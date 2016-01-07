@@ -29,14 +29,16 @@ silentcicero:hooked-web3-provider      --- version 0.0.3
 
 - **/client**
   - /libraries
-    - home
-      Contains the Client Side .js files for the homepage
-    - polls
-      Contains the Client Side .js files for the polls-related pages
+    - *home:* Contains the Client Side .js files for the homepage
+    - *polls:* Contains the Client Side .js files for the polls-related pages
   - /stylesheets
-    - CSS Stylesheets
+    - *home:* Contains the stylesheets for the homepage
+    - *polls:* Contains the stylesheets for the polls-related pages
   - /templates
-    - HTML Templates for the website
+    - *home:* Contains the templates files for the homepage
+    - *polls:* Contains the templates files for the polls-related pages
+  - /subscribed.js
+    - Contains all subscriptions
 
 - **/shared**
   - *routes.js:* Contains the specified routes
@@ -48,7 +50,7 @@ silentcicero:hooked-web3-provider      --- version 0.0.3
   - Contains images and fonts used for the website
 
 - **/server**
-  - Contains server side functionality and collections
+  - Contains server side functionality and publications to the client
 
 - **/collections**
   - Contains three collections:
