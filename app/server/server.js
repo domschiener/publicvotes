@@ -57,7 +57,7 @@ Meteor.startup(function() {
       var balance_eth = web3.fromWei(balance_wei, "ether");
 
       // If a poll is not ready after 7 days, we remove it
-      if (current_poll.startDate + 1000 * 60 * 60 * 24 * 7 <= Date.now()) {
+      if (current_poll.createdAt + 1000 * 60 * 60 * 24 * 7 <= Date.now()) {
         poll.remove({_id: current_poll._id});
       }
 
@@ -93,6 +93,7 @@ Meteor.methods({
   },
   get_accounts: function(poll_id) {
     match(poll_id, String);
+    console.log("succ");
     return EthAccounts.findOne({_id:poll_id});
   },
   store_account: function(poll_id, pubaddress, accounts) {

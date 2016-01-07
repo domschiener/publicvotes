@@ -3,13 +3,12 @@ var allvotes = new ReactiveVar;
 allvotes.set([]);
 
 Template.voted.onRendered(function(){
-
   var timer = Session.get('timer')
   $('#countdown').countdown(timer, function(event) {
     $(this).html(event.strftime('%Dd %H:%M:%S'));
   });
 
-  var current_poll = Session.get('current_poll');
+  var current_poll = this;
   Meteor.call('get_accounts', current_poll._id, function(error,success){
     if (success) {
       var abi = success.contract_abi;
@@ -38,7 +37,7 @@ Template.voted.helpers({
     // else {
     //   return 0;
     // }
-    var current_poll = Session.get('current_poll');
+    var current_poll = this;
     if (current_poll.votes) {
       return current_poll.votes.length;
     }
@@ -48,7 +47,7 @@ Template.voted.helpers({
 
   },
   time_limit: function() {
-    var current_poll = Session.get('current_poll');
+    var current_poll = this;
     if (current_poll.poll.isvoted) {
       Session.set('timer','2015/01/01');
     }
@@ -66,7 +65,7 @@ Template.voted.helpers({
     }
   },
   topGenresChart: function() {
-    var current_poll = Session.get('current_poll');
+    var current_poll = this;
     var poll_options = current_poll.poll.options;
 
     var votes_counted = { };

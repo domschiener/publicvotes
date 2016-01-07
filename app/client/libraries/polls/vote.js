@@ -23,7 +23,7 @@ Template.not_ready.helpers({
 
 Template.vote.events({
   'click .option_click': function(event) {
-    var current_poll = Session.get('current_poll');
+    var current_poll = this;
     Meteor.call('get_accounts', current_poll._id, function(error,success){
       accounts.clear();
       accounts.import(success.account)
@@ -48,7 +48,7 @@ Template.vote.events({
     });
   },
   'click .get_address': function() {
-    var current_poll = Session.get('current_poll');
+    var current_poll = this;
 
     // TODO: Include preformated transaction for client
     if(current_poll.address) {
@@ -83,7 +83,7 @@ Template.vote.events({
     }
   },
   'click .start_poll': function() {
-    var current_poll = Session.get('current_poll');
+    var current_poll = this;
     Meteor.call('get_accounts', this._id, function(error,success) {
       $('.start_poll').addClass('disabled');
       var element = document.getElementById('patience');

@@ -27,19 +27,19 @@ silentcicero:hooked-web3-provider      --- version 0.0.3
 
 ## File Structure
 
-- **/both**
-  - Contains a collection called "poll", which stores all the basic information about all the polls
-
 - **/client**
   - /libraries
-    - Client side .js files
+    - home
+      Contains the Client Side .js files for the homepage
+    - polls
+      Contains the Client Side .js files for the polls-related pages
   - /stylesheets
     - CSS Stylesheets
   - /templates
     - HTML Templates for the website
 
-- **/lib**
-  - Contains the specified routes
+- **/shared**
+  - *routes.js:* Contains the specified routes
 
 - **/packages**
   - Contains a modified version of silentcicero's ethereumjs module
@@ -49,3 +49,9 @@ silentcicero:hooked-web3-provider      --- version 0.0.3
 
 - **/server**
   - Contains server side functionality and collections
+
+- **/collections**
+  - Contains three collections:
+    - *polls:* Collection of all poll related meta-data and casted votes
+    - *Uservotes:* Contains IP-addresses that votes on a specific poll (used for redirecting)
+    - *EthAccounts:* Contains the Ethereum-related accounts which are sent to the browser for signing transactions
