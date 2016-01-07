@@ -1,33 +1,33 @@
 <template name="vote">
   <div class="vote_page">
     {{> vote_header}}
-      {{#if poll.isactive}}
-        <div class="vote_content">
-          <h6 class="vote_small">Vote</h6>
-          {{#if option_count poll.options.length}}
-            <!--TODO: Change color randomly for options -->
-            <div class="two_options row">
-              <div id="{{single_option 0 poll.options}}" class="option_one option_click">
-                <h3 id="{{single_option 0 poll.options}}" class="option_display">{{single_option 0 poll.options}}</h3>
-              </div>
-              <div class="between">
-                <h2>VS.</h2>
-              </div>
-              <div id="{{single_option 1 poll.options}}" class="option_two option_click">
-                <h3 id="{{single_option 1 poll.options}}" class="option_display">{{single_option 1 poll.options}}</h3>
-              </div>
-          	</div>
-          {{else}}
-            <div class="multi_options row">
-            {{#each poll.options}}
-              <button id="{{this}}" class="btn multi_option option_click"><h3 id="{{this}}">{{this}}</h3></button>
-            {{/each}}
+    {{#if poll.isactive}}
+      <div class="vote_content">
+        <h6 class="vote_small">Vote</h6>
+        {{#if option_count poll.options.length}}
+          <!--TODO: Change color randomly for options -->
+          <div class="two_options row">
+            <div id="{{single_option 0 poll.options}}" class="option_one option_click">
+              <h3 id="{{single_option 0 poll.options}}" class="option_display">{{single_option 0 poll.options}}</h3>
             </div>
-          {{/if}}
-        </div>
-      {{else}}
-        {{> not_ready}}
-      {{/if}}
+            <div class="between">
+              <h2>VS.</h2>
+            </div>
+            <div id="{{single_option 1 poll.options}}" class="option_two option_click">
+              <h3 id="{{single_option 1 poll.options}}" class="option_display">{{single_option 1 poll.options}}</h3>
+            </div>
+        	</div>
+        {{else}}
+          <div class="multi_options row">
+          {{#each poll.options}}
+            <button id="{{this}}" class="btn multi_option option_click"><h3 id="{{this}}">{{this}}</h3></button>
+          {{/each}}
+          </div>
+        {{/if}}
+      </div>
+    {{else}}
+      {{> not_ready}}
+    {{/if}}
   </div>
 </template>
 
