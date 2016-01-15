@@ -16,8 +16,8 @@ Template.voted.onRendered(function(){
       var contract = web3.eth.contract(abi).at(address);
       var start_block = current_poll.block;
 
-      var filter = contract.NewVote({}, {fromBlock: start_block, toBlock: 'latest'}, function(error, result) {
-        if (!error) {
+      var filter = contract.NewVote({}, {fromBlock: start_block, toBlock: 'latest'}, function(err, result) {
+        if (!err) {
           var current_votes = allvotes.get();
           current_votes.push(result);
           allvotes.set(current_votes);

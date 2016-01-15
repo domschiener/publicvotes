@@ -68,7 +68,7 @@ Meteor.startup(function() {
         poll.update({_id:current_poll._id}, {$set:{'poll.ready':true}});
       }
     }
-  },120000)
+  }, 120000)
 });
 
 Meteor.methods({
@@ -92,8 +92,7 @@ Meteor.methods({
     return poll.update({_id:poll_id}, {$push: {votes: vote}});
   },
   get_accounts: function(poll_id) {
-    match(poll_id, String);
-    console.log("succ");
+    check(poll_id, String);
     return EthAccounts.findOne({_id:poll_id});
   },
   store_account: function(poll_id, pubaddress, accounts) {
@@ -108,7 +107,6 @@ Meteor.methods({
     Meteor.setTimeout(function() {
       console.log("ID: " + poll_id + " went offline!");
       poll.update({_id:poll_id}, {$set: {'poll.isvoted': true, 'poll.isactive':false}});
-      //TODO: Make transaction that changes contract state
     },(end_date - start_date));
     console.log("New timer set for Poll: " + poll_id);
   },
