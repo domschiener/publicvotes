@@ -8,7 +8,7 @@ Template.voted.onRendered(function(){
     $(this).html(event.strftime('%Dd %H:%M:%S'));
   });
 
-  var current_poll = this;
+  var current_poll = this.data;
   Meteor.call('get_accounts', current_poll._id, function(error,success){
     if (success) {
       var abi = success.contract_abi;

@@ -21,7 +21,7 @@ Router.route('/vote/:_id', {
     var vote_id = this.params._id;
     var current_poll = poll.findOne({_id: this.params._id});
     if (current_poll) {
-      if (current_poll.poll.isvoted == true) {
+      if (current_poll.poll.isvoted === true) {
         var route = "/vote/" + vote_id + "/voted";
         Router.go(route);
       }
