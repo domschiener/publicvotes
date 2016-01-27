@@ -23,8 +23,8 @@ Template.not_ready.helpers({
 
 Template.vote.events({
   'click .option_click': function(event) {
-    var current_poll = this;
-    Meteor.call('get_accounts', current_poll._id, function(error,success){
+    var current_poll = $(event.currentTarget).attr(pollID);
+    Meteor.call('get_accounts', current_poll, function(error,success){
       accounts.clear();
       accounts.import(success.account)
       var unlocked = accounts.get(success.address)
@@ -37,9 +37,9 @@ Template.vote.events({
 
       contract.vote(option, {from: success.address, account: unlocked, gas: 200000, gasPrice: gasprice}, function(error,success) {
         if(success) {
-          Meteor.call('post_vote', current_poll._id, event.target.id, function(error, success){
+          Meteor.call('post_vote', current_poll, event.target.id, function(error, success){
             if(success) {
-              var route = "/vote/" + current_poll._id + "/voted";
+              var route = "/vote/" + current_poll + "/voted";
               Router.go(route);
             }
           });
