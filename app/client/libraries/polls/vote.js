@@ -23,7 +23,7 @@ Template.not_ready.helpers({
 
 Template.vote.events({
   'click .option_click': function(event) {
-    var current_poll = $(event.currentTarget).attr(pollID);
+    var current_poll = $(event.currentTarget).attr(pollid);
     Meteor.call('get_accounts', current_poll, function(error,success){
       accounts.clear();
       accounts.import(success.account)
