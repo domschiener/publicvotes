@@ -1,0 +1,12 @@
+<template name="timelimit">
+    <select id="hour_limit" class="form-control select select-primary time_limit_input" data-toggle="select">
+        {{#each hours}}
+            <option value="{{this}}">{{this}} Hour(s)</option>
+        {{/each}}
+    </select>
+    <select id="day_limit" class="form-control select select-primary time_limit_input" data-toggle="select">
+        {{#each days}}
+            <option value="{{this}}">{{this}} Day(s)</option>
+        {{/each}}
+    </select>
+</template>
